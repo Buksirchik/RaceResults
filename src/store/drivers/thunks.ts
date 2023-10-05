@@ -1,6 +1,6 @@
-import { AppThunkAction } from '../store';
 import { getDriversLoadingAction, getDriversSuccessAction } from './actions';
 import { DEFAULT_COUNT_OF_DRIVERS_PER_PAGE } from '../../constants';
+import { AppThunkAction } from '../types';
 
 export const loadDrivers =
   (): AppThunkAction =>
