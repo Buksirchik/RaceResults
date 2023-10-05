@@ -20,13 +20,15 @@ export const driversReducer = (state: State = initialState, action: DriversActio
     case ActionType.GET_DRIVERS_LOADING: {
       return {
         ...state,
-        loading: true,
+        loading: !state.loading,
       };
     }
     case ActionType.GET_DRIVERS_SUCCESS: {
       return {
         ...state,
-        drivers: action.payload.drivers,
+        drivers: [...state.drivers, ...action.payload.drivers],
+        currentPage: action.payload.currentPage,
+        totalPages: action.payload.totalPages,
         loading: false,
       };
     }

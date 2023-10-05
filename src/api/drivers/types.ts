@@ -28,3 +28,7 @@ export type GetDriverByIdResponse = {
     };
   };
 };
+
+export type GetDriversParams = {
+  offset: number;
+};
