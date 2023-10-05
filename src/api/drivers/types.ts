@@ -14,21 +14,6 @@ export type GetDriversResponse = {
   };
 };
 
-export type GetDriverByIdResponse = {
-  MRData: {
-    xmlns: string;
-    series: string;
-    url: string;
-    limit: string;
-    offset: string;
-    total: string;
-    DriverTable: {
-      driverId: string;
-      Drivers: [Driver];
-    };
-  };
-};
-
 export type GetDriversParams = {
   offset: number;
 };
