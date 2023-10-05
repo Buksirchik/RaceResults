@@ -1,6 +1,6 @@
 import { RootState } from '../store';
+import { Driver } from '../../types';
 
-export const driversSelector = (state: RootState) => state.drivers.drivers;
-export const driversLoadingSelector = (state: RootState) => state.drivers.loading;
-export const driversCurrentPageSelector = (state: RootState) => state.drivers.currentPage;
-export const driversTotalPagesSelector = (state: RootState) => state.drivers.totalPages;
+export const driversStateSelector = (state: RootState) => state.drivers;
+export const getDriverByIdSelector = (state: RootState, driverId: Driver['driverId']) =>
+  driversStateSelector(state).drivers.find(driver => driver.driverId === driverId);

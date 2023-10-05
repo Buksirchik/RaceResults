@@ -1,26 +1,14 @@
-import { ActivityIndicator, FlatList, FlatListProps, SafeAreaView, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, FlatListProps, SafeAreaView } from 'react-native';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loadDrivers } from '../../store/drivers';
-import {
-  driversCurrentPageSelector,
-  driversLoadingSelector,
-  driversSelector,
-  driversTotalPagesSelector,
-} from '../../store/drivers/selectors';
+import { driversStateSelector } from '../../store/drivers/selectors';
 import { Driver } from '../../types';
 import { styles } from './styles';
+import { DriverItem } from './DriverItem';
 
 const renderItem: FlatListProps<Driver>['renderItem'] = ({ item, index }) => {
-  const { givenName = '', familyName = '' } = item;
-
-  const fullName = `${index + 1}. ${givenName} ${familyName}`;
-
-  return (
-    <View style={styles.itemDriverContainer}>
-      <Text style={styles.driverFullName}>{fullName}</Text>
-    </View>
-  );
+  return <DriverItem driver={item} order={index + 1} />;
 };
 
 const keyExtractor: FlatListProps<Driver>['keyExtractor'] = item => item.driverId;
@@ -28,10 +16,7 @@ const keyExtractor: FlatListProps<Driver>['keyExtractor'] = item => item.driverI
 export const Drivers = () => {
   const dispatch = useAppDispatch();
 
-  const drivers = useAppSelector(driversSelector);
-  const isLoading = useAppSelector(driversLoadingSelector);
-  const currentPage = useAppSelector(driversCurrentPageSelector);
-  const totalPages = useAppSelector(driversTotalPagesSelector);
+  const { drivers, currentPage, totalPages, loading: isLoading } = useAppSelector(driversStateSelector);
 
   useEffect(() => {
     if (!drivers.length) {
