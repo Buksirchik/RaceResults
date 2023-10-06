@@ -1,1 +1,2 @@
 export const DEFAULT_COUNT_OF_DRIVERS_PER_PAGE = 30;
+export const DRIVER_ITEM_HEIGHT = 60;
