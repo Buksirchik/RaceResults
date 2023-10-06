@@ -9,7 +9,6 @@ import createDebugger from 'redux-flipper';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  blacklist: ['drivers'],
 };
 
 const middlewares = [thunk.withExtraArgument({ api })];

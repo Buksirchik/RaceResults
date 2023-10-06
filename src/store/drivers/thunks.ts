@@ -1,26 +1,59 @@
-import { getDriversLoadingAction, getDriversSuccessAction } from './actions';
+import { getDriversLoadingAction, getDriversRefreshingAction, getDriversSuccessAction } from './actions';
 import { DEFAULT_COUNT_OF_DRIVERS_PER_PAGE } from '../../constants';
 import { AppThunkAction } from '../types';
 
 export const loadDrivers =
-  (): AppThunkAction =>
+  (isInitialLoading?: boolean): AppThunkAction =>
   async (dispatch, getState, { api }) => {
-    const state = getState();
+    try {
+      const state = getState();
 
-    dispatch(getDriversLoadingAction());
+      if (state.driversState.drivers.length && isInitialLoading) {
+        // there's cached values, we don't need to fetch it again
+        return;
+      }
 
-    const currentPage = state.drivers.currentPage;
-    const offset = currentPage * DEFAULT_COUNT_OF_DRIVERS_PER_PAGE;
+      dispatch(getDriversLoadingAction());
 
-    const response = await api.drivers.getDrivers({ offset });
+      const currentPage = state.driversState.currentPage;
+      const offset = currentPage * DEFAULT_COUNT_OF_DRIVERS_PER_PAGE;
 
-    const data = response.data.MRData;
+      const response = await api.drivers.getDrivers({ offset });
 
-    const payload = {
-      drivers: data.DriverTable.Drivers,
-      currentPage: Number(data.offset) / DEFAULT_COUNT_OF_DRIVERS_PER_PAGE + 1,
-      totalPages: Number(data.total) / DEFAULT_COUNT_OF_DRIVERS_PER_PAGE,
-    };
+      const data = response.data.MRData;
 
-    dispatch(getDriversSuccessAction(payload));
+      const payload = {
+        drivers: data.DriverTable.Drivers,
+        currentPage: Number(data.offset) / DEFAULT_COUNT_OF_DRIVERS_PER_PAGE + 1,
+        totalPages: Number(data.total) / DEFAULT_COUNT_OF_DRIVERS_PER_PAGE,
+      };
+
+      dispatch(getDriversSuccessAction(payload));
+    } catch (e) {
+      console.error(e);
+      dispatch(getDriversLoadingAction());
+    }
+  };
+
+export const refreshDrivers =
+  (): AppThunkAction =>
+  async (dispatch, _, { api }) => {
+    try {
+      dispatch(getDriversRefreshingAction());
+
+      const response = await api.drivers.getDrivers();
+
+      const data = response.data.MRData;
+
+      const payload = {
+        drivers: data.DriverTable.Drivers,
+        currentPage: Number(data.offset) / DEFAULT_COUNT_OF_DRIVERS_PER_PAGE + 1,
+        totalPages: Number(data.total) / DEFAULT_COUNT_OF_DRIVERS_PER_PAGE,
+      };
+
+      dispatch(getDriversSuccessAction(payload));
+    } catch (e) {
+      console.error(e);
+      dispatch(getDriversRefreshingAction());
+    }
   };

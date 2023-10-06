@@ -6,12 +6,14 @@ export enum MainStackScreens {
   Home = 'Home',
   Drivers = 'Drivers',
   Driver = 'Driver',
+  RaceSchedule = 'RaceSchedule',
 }
 
 export type MainStackParamList = {
   Home: undefined;
   Drivers: undefined;
   Driver: { driverId: Driver['driverId'] };
+  RaceSchedule: undefined;
 };
 
 export type MainStackNavigationProp<T extends keyof MainStackParamList> = StackNavigationProp<MainStackParamList, T>;

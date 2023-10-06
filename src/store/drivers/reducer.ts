@@ -4,6 +4,7 @@ import { ActionType, DriversActions } from './actions';
 type State = {
   drivers: Driver[];
   loading: boolean;
+  refreshing: boolean;
   currentPage: number;
   totalPages: number;
 };
@@ -11,6 +12,7 @@ type State = {
 const initialState = {
   drivers: [],
   loading: false,
+  refreshing: false,
   currentPage: 0,
   totalPages: 0,
 };
@@ -23,13 +25,22 @@ export const driversReducer = (state: State = initialState, action: DriversActio
         loading: !state.loading,
       };
     }
-    case ActionType.GET_DRIVERS_SUCCESS: {
+    case ActionType.GET_DRIVERS_REFRESHING: {
       return {
         ...state,
-        drivers: [...state.drivers, ...action.payload.drivers],
+        refreshing: !state.refreshing,
+      };
+    }
+    case ActionType.GET_DRIVERS_SUCCESS: {
+      const drivers = state.refreshing ? [...action.payload.drivers] : [...state.drivers, ...action.payload.drivers];
+
+      return {
+        ...state,
+        drivers,
+        loading: false,
+        refreshing: false,
         currentPage: action.payload.currentPage,
         totalPages: action.payload.totalPages,
-        loading: false,
       };
     }
     default: {
