@@ -7,7 +7,7 @@ import { Driver } from '../../types';
 import { styles } from './styles';
 import { DriverItem } from './DriverItem';
 import { EmptyView } from '../../components';
-import { DRIVER_ITEM_HEIGHT } from '../../constants';
+import { LIST_ITEM_HEIGHT } from '../../constants';
 
 const renderItem: FlatListProps<Driver>['renderItem'] = ({ item, index }) => {
   return <DriverItem driver={item} order={index + 1} />;
@@ -16,8 +16,8 @@ const renderItem: FlatListProps<Driver>['renderItem'] = ({ item, index }) => {
 const keyExtractor: FlatListProps<Driver>['keyExtractor'] = item => item.driverId;
 
 const getItemLayout: FlatListProps<Driver>['getItemLayout'] = (data, index) => ({
-  length: DRIVER_ITEM_HEIGHT,
-  offset: DRIVER_ITEM_HEIGHT * index,
+  length: LIST_ITEM_HEIGHT,
+  offset: LIST_ITEM_HEIGHT * index,
   index,
 });
 
@@ -45,8 +45,10 @@ export const Drivers = () => {
     dispatch(refreshDrivers());
   };
 
+  const contentContainerStyle = drivers.length ? styles.listContentContainer : styles.emptyListContentContainer;
+
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={contentContainerStyle}>
       <FlatList
         data={drivers}
         windowSize={11}

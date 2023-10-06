@@ -1,21 +1,18 @@
 import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 import { LIST_ITEM_HEIGHT } from '../../constants';
 
-type DriversStyles = {
-  itemDriverContainer: ViewStyle;
-  driverFullName: TextStyle;
-  listContentContainer: ViewStyle;
+type RaceScheduleStyles = {
+  scheduleItem: TextStyle;
   container: ViewStyle;
+  listContentContainer: ViewStyle;
   emptyListContentContainer: ViewStyle;
 };
 
-export const styles = StyleSheet.create<DriversStyles>({
-  itemDriverContainer: {
+export const styles = StyleSheet.create<RaceScheduleStyles>({
+  scheduleItem: {
     padding: 20,
-    height: LIST_ITEM_HEIGHT,
-  },
-  driverFullName: {
     fontSize: 18,
+    height: LIST_ITEM_HEIGHT,
   },
   listContentContainer: {
     flexGrow: 1,
