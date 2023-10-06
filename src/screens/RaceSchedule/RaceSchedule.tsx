@@ -36,7 +36,8 @@ export const RaceSchedule = () => {
     dispatch(loadRaceSchedule());
   };
 
-  const contentContainerStyle = raceSchedule.length ? styles.listContentContainer : styles.emptyListContentContainer;
+  const contentContainerStyle =
+    raceSchedule.length && !isLoading ? styles.listContentContainer : styles.emptyListContentContainer;
 
   return (
     <SafeAreaView style={styles.container}>

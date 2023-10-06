@@ -45,10 +45,11 @@ export const Drivers = () => {
     dispatch(refreshDrivers());
   };
 
-  const contentContainerStyle = drivers.length ? styles.listContentContainer : styles.emptyListContentContainer;
+  const contentContainerStyle =
+    drivers.length && !isInitialLoading ? styles.listContentContainer : styles.emptyListContentContainer;
 
   return (
-    <SafeAreaView style={contentContainerStyle}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={drivers}
         windowSize={11}
@@ -59,7 +60,7 @@ export const Drivers = () => {
         keyExtractor={keyExtractor}
         renderItem={renderItem}
         ListEmptyComponent={ListEmptyComponent}
-        contentContainerStyle={styles.listContentContainer}
+        contentContainerStyle={contentContainerStyle}
         onEndReachedThreshold={0.3}
         onEndReached={onEndReached}
         ListFooterComponent={ListFooterComponent}
