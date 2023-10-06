@@ -1,8 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import { Drivers, Home, RaceSchedule, Driver } from '../../screens';
 import { MainStackParamList, MainStackScreens } from './types';
-import { Button } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
 import { NavigationProp } from '@react-navigation/native';
+import { styles } from './styles';
 
 const Stack = createStackNavigator();
 
@@ -12,7 +13,11 @@ const driversScreenOptions = ({ navigation }: { navigation: NavigationProp<MainS
   };
 
   return {
-    headerRight: () => <Button title={'Race Schedule'} onPress={handleButtonRightPress} />,
+    headerRight: () => (
+      <TouchableOpacity onPress={handleButtonRightPress} style={styles.headerRightTouchable}>
+        <Text style={styles.headerRightText}>Race Schedule</Text>
+      </TouchableOpacity>
+    ),
   };
 };
 
